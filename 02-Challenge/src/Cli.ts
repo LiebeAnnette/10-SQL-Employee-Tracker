@@ -64,7 +64,7 @@ async function viewRoles() {
 }
 
 async function viewEmployees() {
-  const res = await query("SELECT * FROM employee;");
+  const res = await query("SELECT * FROM employee LEFT JOIN roles ON employee.role_id = roles.id");
   console.table(res.rows);
 }
 
@@ -77,7 +77,7 @@ async function addDepartment() {
       },
     ]);
   
-    await query("INSERT INTO department (name) VALUES ($1);", [answer.name]);
+    await query("INSERT INTO department (department_name) VALUES ($1);", [answer.name]);
     console.log(`Department '${answer.name}' added successfully.`);
   }
   
@@ -156,7 +156,7 @@ async function addDepartment() {
     ]);
   
     await query(
-      "INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES ($1, $2, $3, $4);",
+      "INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ($1, $2, $3, $4);",
       [answers.first_name, answers.last_name, answers.role_id, answers.manager_id]
     );
   
@@ -191,7 +191,7 @@ async function addDepartment() {
       },
     ]);
   
-    await query("UPDATE employees SET role_id = $1 WHERE id = $2;", [
+    await query("UPDATE employee SET role_id = $1 WHERE id = $2;", [
       answers.role_id,
       answers.employee_id,
     ]);

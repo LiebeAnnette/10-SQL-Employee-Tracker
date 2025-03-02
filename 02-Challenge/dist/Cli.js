@@ -65,7 +65,7 @@ function mainMenu() {
 }
 function viewDepartments() {
     return __awaiter(this, void 0, void 0, function* () {
-        const res = yield (0, db_1.query)("SELECT * FROM departments;");
+        const res = yield (0, db_1.query)("SELECT * FROM department;");
         console.table(res.rows);
     });
 }
@@ -77,7 +77,7 @@ function viewRoles() {
 }
 function viewEmployees() {
     return __awaiter(this, void 0, void 0, function* () {
-        const res = yield (0, db_1.query)("SELECT * FROM employees;");
+        const res = yield (0, db_1.query)("SELECT * FROM employee;");
         console.table(res.rows);
     });
 }
@@ -90,13 +90,13 @@ function addDepartment() {
                 message: "Enter the name of the new department:",
             },
         ]);
-        yield (0, db_1.query)("INSERT INTO departments (name) VALUES ($1);", [answer.name]);
+        yield (0, db_1.query)("INSERT INTO department (name) VALUES ($1);", [answer.name]);
         console.log(`Department '${answer.name}' added successfully.`);
     });
 }
 function addRole() {
     return __awaiter(this, void 0, void 0, function* () {
-        const departments = yield (0, db_1.query)("SELECT * FROM departments;");
+        const departments = yield (0, db_1.query)("SELECT * FROM department;");
         const departmentChoices = departments.rows.map((dept) => ({
             name: dept.name,
             value: dept.id,
@@ -130,7 +130,7 @@ function addEmployee() {
             name: role.title,
             value: role.id,
         }));
-        const employees = yield (0, db_1.query)("SELECT * FROM employees;");
+        const employees = yield (0, db_1.query)("SELECT * FROM employee;");
         const managerChoices = employees.rows.map((emp) => ({
             name: `${emp.first_name} ${emp.last_name}`,
             value: emp.id,
@@ -160,13 +160,13 @@ function addEmployee() {
                 choices: managerChoices,
             },
         ]);
-        yield (0, db_1.query)("INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES ($1, $2, $3, $4);", [answers.first_name, answers.last_name, answers.role_id, answers.manager_id]);
+        yield (0, db_1.query)("INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ($1, $2, $3, $4);", [answers.first_name, answers.last_name, answers.role_id, answers.manager_id]);
         console.log(`Employee '${answers.first_name} ${answers.last_name}' added successfully.`);
     });
 }
 function updateEmployeeRole() {
     return __awaiter(this, void 0, void 0, function* () {
-        const employees = yield (0, db_1.query)("SELECT * FROM employees;");
+        const employees = yield (0, db_1.query)("SELECT * FROM employee;");
         const employeeChoices = employees.rows.map((emp) => ({
             name: `${emp.first_name} ${emp.last_name}`,
             value: emp.id,
@@ -190,7 +190,7 @@ function updateEmployeeRole() {
                 choices: roleChoices,
             },
         ]);
-        yield (0, db_1.query)("UPDATE employees SET role_id = $1 WHERE id = $2;", [
+        yield (0, db_1.query)("UPDATE employee SET role_id = $1 WHERE id = $2;", [
             answers.role_id,
             answers.employee_id,
         ]);
