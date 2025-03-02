@@ -19,8 +19,8 @@ VALUES  ('Sales Lead', 80000, 4),
         ('Lawyer', 100000, 3);
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES  ('John', 'Doe', 1, NULL),
-        ('Jane', 'Smith', 2, 1),
+VALUES  ('Stephen', 'Tobolowsky', 1, NULL),
+        ('Marita', 'Geraghty', 2, 1),
         ('Bill', 'Murray', 3, NULL),
         ('Andie', 'McDowell', 4, 3),
         ('Harold', 'Ramis', 5, NULL),

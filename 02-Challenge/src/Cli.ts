@@ -17,6 +17,9 @@ async function mainMenu() {
           "Add a role",
           "Add an employee",
           "Update an employee's role",
+          "Delete a department",
+          "Delete a role",
+          "Delete an employee",
           "Exit",
         ],
       },
@@ -43,6 +46,15 @@ async function mainMenu() {
         break;
       case "Update an employee's role":
         await updateEmployeeRole();
+        break;
+      case "Delete a department":
+        await deleteDepartment();
+        break;
+      case "Delete a role":
+        await deleteRole();
+        break;
+      case "Delete an employee":
+        await deleteEmployee();
         break;
       case "Exit":
         console.log("Goodbye!");
@@ -198,8 +210,81 @@ async function addDepartment() {
   
     console.log(`Employee's role updated successfully.`);
   }
-  
+
+// DELETE DEPARTMENTS ROLES EMPLOYEES
+
+async function deleteEmployee() {
+  const employees = await query("SELECT * FROM employee;");
+  const employeeChoices = employees.rows.map((emp: any) => ({
+    name: `${emp.first_name} ${emp.last_name}`,
+    value: emp.id,
+  }));
+
+  if (employeeChoices.length === 0) {
+    console.log("No employees found.");
+    return;
+  }
+
+  const answers = await inquirer.prompt([
+    {
+      type: "list",
+      name: "employee_id",
+      message: "Select the employee to delete:",
+      choices: employeeChoices,
+    },
+  ]);
+}
+  async function deleteRole() {
+    const roles = await query("SELECT * FROM roles;");
+    const roleChoices = roles.rows.map((role: any) => ({
+      name: role.title,
+      value: role.id,
+    }));
+
+    if (roleChoices.length === 0) {
+        console.log("No roles found.");
+        return;
+    }
+
+    const answers = await inquirer.prompt([
+        {
+            type: "list",
+            name: "role_id",
+            message: "Select the role to delete:",
+            choices: roleChoices,
+        },
+    ]);
+
+    await query("DELETE FROM roles WHERE id = $1;", [answers.role_id]);
+
+    console.log(`Role deleted successfully.`);
+}
+
+async function deleteDepartment() {
+  const departments = await query("SELECT * FROM department;");
+  const departmentChoices = departments.rows.map((dept: any) => ({
+    name: dept.name,
+    value: dept.id,
+  }));
+
+  if (departmentChoices.length === 0) {
+      console.log("No departments found.");
+      return;
+  }
+
+  const answers = await inquirer.prompt([
+      {
+          type: "list",
+          name: "department_id",
+          message: "Select the department to delete:",
+          choices: departmentChoices,
+      },
+  ]);
+
+  await query("DELETE FROM department WHERE id = $1;", [answers.department_id]);
+
+  console.log(`Department deleted successfully.`);
+}
+
 
 mainMenu();
-
-
