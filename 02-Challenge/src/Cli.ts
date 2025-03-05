@@ -17,9 +17,9 @@ async function mainMenu() {
           "Add a role",
           "Add an employee",
           "Update an employee's role",
-          "Delete a department",
-          "Delete a role",
-          "Delete an employee",
+          // "Delete a department",
+          // "Delete a role",
+          // "Delete an employee",
           "Exit",
         ],
       },
@@ -47,15 +47,15 @@ async function mainMenu() {
       case "Update an employee's role":
         await updateEmployeeRole();
         break;
-      case "Delete a department":
-        await deleteDepartment();
-        break;
-      case "Delete a role":
-        await deleteRole();
-        break;
-      case "Delete an employee":
-        await deleteEmployee();
-        break;
+      // case "Delete a department":
+      //   await deleteDepartment();
+      //   break;
+      // case "Delete a role":
+      //   await deleteRole();
+      //   break;
+      // case "Delete an employee":
+      //   await deleteEmployee();
+      //   break;
       case "Exit":
         console.log("Goodbye!");
         process.exit();
@@ -213,28 +213,29 @@ async function addDepartment() {
 
 // DELETE DEPARTMENTS ROLES EMPLOYEES
 
-async function deleteEmployee() {
-  const employees = await query("SELECT * FROM employee;");
-  const employeeChoices = employees.rows.map((emp: any) => ({
-    name: `${emp.first_name} ${emp.last_name}`,
-    value: emp.id,
-  }));
+// async function deleteEmployee() {
+//   const employees = await query("SELECT * FROM employee;");
+//   const employeeChoices = employees.rows.map((emp: any) => ({
+//     name: `${emp.first_name} ${emp.last_name}`,
+//     value: emp.id,
+//   }));
 
-  if (employeeChoices.length === 0) {
-    console.log("No employees found.");
-    return;
-  }
+//   if (employeeChoices.length === 0) {
+//     console.log("No employees found.");
+//     return;
+//   }
 
-  const answers = await inquirer.prompt([
-    {
-      type: "list",
-      name: "employee_id",
-      message: "Select the employee to delete:",
-      choices: employeeChoices,
-    },
-  ]);
-}
-  async function deleteRole() {
+//   const answers = await inquirer.prompt([
+//     {
+//       type: "list",
+//       name: "employee_id",
+//       message: "Select the employee to delete:",
+//       choices: employeeChoices,
+//     },
+//   ]);
+// }
+  
+async function deleteRole() {
     const roles = await query("SELECT * FROM roles;");
     const roleChoices = roles.rows.map((role: any) => ({
       name: role.title,
